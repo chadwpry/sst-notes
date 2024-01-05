@@ -18,7 +18,11 @@ export default function handler(
 
     return {
       statusCode,
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
       body,
     };
   };
