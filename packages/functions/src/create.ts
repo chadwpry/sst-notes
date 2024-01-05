@@ -16,14 +16,14 @@ export const main = handler(async (event) => {
   const params = {
     TableName: Table.Notes.tableName,
     Item: {
-      userId: "123",
+      userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
       noteId: uuid.v1(),
       content: data.content,
       attachment: data.attachment,
       createAt: Date.now(),
     },
   };
-console.log(params);
+
   await dynamoDb.put(params);
 
   return JSON.stringify(params.Item);
