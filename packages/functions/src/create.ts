@@ -23,8 +23,8 @@ export const main = handler(async (event) => {
       createAt: Date.now(),
     },
   };
-
-  await dynamoDb.push(params);
+console.log(params);
+  await dynamoDb.put(params);
 
   return JSON.stringify(params.Item);
 });
