@@ -20,7 +20,7 @@ export const main = handler(async (event) => {
       noteId: uuid.v1(),
       content: data.content,
       attachment: data.attachment,
-      createAt: Date.now(),
+      createdAt: Date.now(),
     },
   };
 

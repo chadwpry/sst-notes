@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FormEvent, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import { useNavigate } from "react-router-dom";
@@ -19,9 +19,9 @@ export default function Signup() {
     confirmationCode: "",
   });
   const nav = useNavigate();
-  const { userHasAuthenticated } = useAppContext();
+  const {userHasAuthenticated} = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
-  const [newUser, setNewUser] = useState<null | string>(null);
+  const [newUser, setNewUser] = useState<null | ISignUpResult>(null);
 
   function validateForm() {
     return (
@@ -35,13 +35,16 @@ export default function Signup() {
     return fields.confirmationCode.length > 0;
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setIsLoading(true);
 
     try {
-      const [newUser, setNewUser] = useState<null | ISignUpResult>(null);
+      const newUser = await Auth.signUp({
+        username: fields.email,
+        password: fields.password,
+      });
 
       setIsLoading(false);
       setNewUser(newUser);
@@ -52,7 +55,7 @@ export default function Signup() {
   }
 
   async function handleConfirmationSubmit(
-    event: React.FormEvent<HTMLFormElement>
+    event: FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
 
